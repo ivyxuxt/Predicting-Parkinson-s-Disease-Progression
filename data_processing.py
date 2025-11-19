@@ -41,16 +41,16 @@ remove_cols = [:subject, :motor_UPDRS, :total_UPDRS]
 features = setdiff(names(df), remove_cols)
 
 # Train split
-X_train = select(train_df, features)
-y_train = train_df[:, target]
+X_train = select(train_df, Not([:subject, :motor_UPDRS, :total_UPDRS]))
+y_train = train_df[:, :total_UPDRS]
 
 # Validation split
-X_val = select(val_df, features)
-y_val = val_df[:, target]
+X_val = select(val_df, Not([:subject, :motor_UPDRS, :total_UPDRS]))
+y_val = val_df[:, :total_UPDRS]
 
 # Test split
-X_test = select(test_df, features)
-y_test = test_df[:, target]
+X_test = select(test_df, Not([:subject, :motor_UPDRS, :total_UPDRS]))
+y_test = test_df[:, :total_UPDRS]
 
 println("Train set:  X_train rows = ", nrow(X_train),
         ", y_train length = ", length(y_train))
