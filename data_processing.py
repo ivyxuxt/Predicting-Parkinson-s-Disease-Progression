@@ -33,3 +33,30 @@ test_subjects  = shuffled_subjects[n_train+n_val+1 : n_train+n_val+n_test]
 train_df = filter(row -> row.subject in train_subjects, df)
 val_df   = filter(row -> row.subject in val_subjects, df)
 test_df  = filter(row -> row.subject in test_subjects, df)
+
+# extract target and features
+target = :total_UPDRS
+remove_cols = [:subject, :motor_UPDRS, :total_UPDRS]
+
+features = setdiff(names(df), remove_cols)
+
+# Train split
+X_train = select(train_df, features)
+y_train = train_df[:, target]
+
+# Validation split
+X_val = select(val_df, features)
+y_val = val_df[:, target]
+
+# Test split
+X_test = select(test_df, features)
+y_test = test_df[:, target]
+
+println("Train set:  X_train rows = ", nrow(X_train),
+        ", y_train length = ", length(y_train))
+
+println("Val set:    X_val rows   = ", nrow(X_val),
+        ", y_val length   = ", length(y_val))
+
+println("Test set:   X_test rows  = ", nrow(X_test),
+        ", y_test length  = ", length(y_test))
